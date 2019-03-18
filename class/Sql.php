@@ -23,14 +23,14 @@ class Sql extends PDO {
 	//É recriada a variável '$key' para cada índice de posição do array '$parameters'.
     //É recriada a variável '$value' para cada valor de cada indice de posição do array '$parameters'.
 		foreach($parameters as $key => $value){
-			$this->setParam($key,$value);
+			$this->setParam($statment,$key,$value);
 		}
 	}
 	
 	private function setParam($statment,$key,$value){
 		//Esta variável só é acessada dentro deste método mesmo.
 		//Escopo neste método, foi criada aqui.
-		$tatment->bindParam($key,$value);
+		$statment->bindParam($key,$value);
 	}
 	
 	public function query($rawQuery,$params=array()){
