@@ -57,10 +57,43 @@ public function loadById($id){
 		$this->setDtcadastro(new DateTime($row['dtcadastro']));
 	}
 }
+
+//Método que lista todos na tabela:
+public static function getList(){
+	$sql = new Sql();
+	return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin");
+}
+	
+//Método que busca um usuário:
+public static function search($login){
+	$sql = new Sql();
+	return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin", array(':SEARCH'=>"%".$login."%"));
+}
+	
+//Carega um usuário usando o login e a senha:
+public function login($login,$password){
+	$sql = new Sql();
+	$results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSWORD", array(":LOGIN"=>$login,":PASSWORD"=>$password));
+	//Se existe algum valor no indice '0', ou seja, se existe pelo menos um registro.
+	if(isset($results[0])){
+		
+		$row = $results[0];
+		
+		$this->setIdusuario($row['idusuario']);
+		$this->setDeslogin($row['deslogin']);
+		$this->setDessenha($row['dessenha']);
+		$this->setDtcadastro(new DateTime($row['dtcadastro']));
+		
+	} else {
+		throw new Exception("Login e/ou senha inválidos");
+		
+	}
+}
 	
 
 //Método mágico 'toString' que imprimirá os campos do
-//usuário, usando json:
+//usuário, usando json, quando instanciando esta
+//classe e dando um 'echo' no objeto:
 public function __toString(){
 	
 	return json_encode(array(

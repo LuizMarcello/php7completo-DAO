@@ -2,21 +2,34 @@
 
 require_once("config.php");
 
-/*
-$sql = new Sql();
+//Carrega uma lista de usuários:
+//$sql = new Sql();
+//$usuarios = $sql->select("SELECT * FROM tb_usuarios");
+//echo json_encode($usuarios);
 
-$usuarios = $sql->select("SELECT * FROM tb_usuarios");
-
-echo json_encode($usuarios);
-*/
-
-$user = new Usuario();
-
-$user->loadById(1);
-
+//Carrega um usuário:
+//$user = new Usuario();
+//$user->loadById(1);
 //Ao invés do echo mostrar a estrutura deste objeto, ele
 //mostra o quem tem dentro do método mágico __toString,
 //da classe Usuario.php.
-echo $user;
+//echo $user;
+
+//carrega uma lista de usuários:
+//$lista = Usuario::getList();
+//echo json_encode($lista);
+
+//Carrega uma lista de usuários, buscando pelo login:
+//$search = Usuario::search("oo");
+//echo json_encode($search);
+
+//Carrega um usuário usando o login e a senha:
+$usuario = new Usuario();
+$usuario->login("jose","12345");
+//Ao invés do echo mostrar a estrutura deste objeto, ele
+//mostra o quem tem dentro do método mágico __toString,
+//da classe Usuario.php.
+echo $usuario;
+
 
 ?>
