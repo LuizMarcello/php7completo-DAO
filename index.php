@@ -24,12 +24,18 @@ require_once("config.php");
 //echo json_encode($search);
 
 //Carrega um usuário usando o login e a senha:
-$usuario = new Usuario();
-$usuario->login("jose","12345");
+//suario = new Usuario();
+//suario->login("jose","12345");
 //Ao invés do echo mostrar a estrutura deste objeto, ele
 //mostra o quem tem dentro do método mágico __toString,
 //da classe Usuario.php.
-echo $usuario;
+//echo $usuario;
+
+$aluno = new Usuario("peter","@123dificil@");
+
+$aluno->insert();
+
+echo $aluno;
 
 
 ?>

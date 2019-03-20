@@ -20,7 +20,7 @@ public function getDeslogin(){
 	return $this->deslogin;
 }
 public function setDeslogin($value){
-	$this->deslogin="nome";
+	$this->deslogin=$value;
 }
 
 
@@ -28,7 +28,7 @@ public function getDessenha(){
 	return $this->dessenha;
 }
 public function setDessenha($value){
-	$this->dessenha="senha";
+	$this->dessenha=$value;
 }
 
 
@@ -39,8 +39,6 @@ public function setDtcadastro($value){
 	$this->dtcadastro=$value;
 }
 	
-
-
 //Este método somente pegará as informações que vieram dos registros
 //do banco de dados e alimentará os atributos 'set' acima.
 public function loadById($id){
@@ -49,12 +47,7 @@ public function loadById($id){
 	//Se existe algum valor no indice '0', ou seja, se existe pelo menos um registro.
 	if(isset($results[0])){
 		
-		$row = $results[0];
-		
-		$this->setIdusuario($row['idusuario']);
-		$this->setDeslogin($row['deslogin']);
-		$this->setDessenha($row['dessenha']);
-		$this->setDtcadastro(new DateTime($row['dtcadastro']));
+		$this->setData($results[0]);
 	}
 }
 
@@ -77,12 +70,8 @@ public function login($login,$password){
 	//Se existe algum valor no indice '0', ou seja, se existe pelo menos um registro.
 	if(isset($results[0])){
 		
-		$row = $results[0];
+		$this->setData($results[0]);
 		
-		$this->setIdusuario($row['idusuario']);
-		$this->setDeslogin($row['deslogin']);
-		$this->setDessenha($row['dessenha']);
-		$this->setDtcadastro(new DateTime($row['dtcadastro']));
 		
 	} else {
 		throw new Exception("Login e/ou senha inválidos");
@@ -90,7 +79,29 @@ public function login($login,$password){
 	}
 }
 	
+public function setData($data){
+		$this->setIdusuario($data['idusuario']);
+		$this->setDeslogin($data['deslogin']);
+		$this->setDessenha($data['dessenha']);
+		$this->setDtcadastro(new DateTime($data['dtcadastro']));
+}
+	
+public function insert(){
+	$sql = new Sql();
+	$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)",array(':LOGIN'=>$this->getDeslogin(),':PASSWORD'=>$this->getDessenha()));
+		if(isset($results[0])){
+		$this->setData($results[0]);
+		
+		}
+	}
 
+	//Com o acréscimo de ="", os parâmetros deixam de ser obrigatórios,
+	//ou seja, posso instanciar esta classe com os parâmetros, ou não.
+public function __construct($login="", $password=""){;
+	$this->setDeslogin($login);
+	$this->setDessenha($password);
+}
+	
 //Método mágico 'toString' que imprimirá os campos do
 //usuário, usando json, quando instanciando esta
 //classe e dando um 'echo' no objeto:
