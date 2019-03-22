@@ -31,11 +31,17 @@ require_once("config.php");
 //da classe Usuario.php.
 //echo $usuario;
 
-$aluno = new Usuario("peter","@123dificil@");
+//Insere o usuário do parâmetro na tabela, no próximo ID da sequência:
+//$aluno = new Usuario("peter","@123dificil@");
+//$aluno->insert();
+//echo $aluno;
 
-$aluno->insert();
 
-echo $aluno;
-
+//Altera o login e a senha do usuario referente ao ID do parâmetro, na invocação do método 'loadById()',
+//pelo login e senha que constam no parâmetro, na invocação do método 'update()':
+$usuario = new Usuario();
+$usuario->loadById(13);
+$usuario->update("Issac","123OliveirA123");
+echo $usuario;
 
 ?>

@@ -39,8 +39,8 @@ public function setDtcadastro($value){
 	$this->dtcadastro=$value;
 }
 	
-//Este método somente pegará as informações que vieram dos registros
-//do banco de dados e alimentará os atributos 'set' acima.
+//Este método confirma se no ID do parâmetro existe um usuário.
+//Se houver, invoca o método 'setData' para alimentar os set´s dos campos, na tabela.
 public function loadById($id){
 	$sql = new Sql();
 	$results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(":ID"=>$id));
@@ -63,7 +63,7 @@ public static function search($login){
 	return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin", array(':SEARCH'=>"%".$login."%"));
 }
 	
-//Carega um usuário usando o login e a senha:
+//Carrega um usuário usando o login e a senha:
 public function login($login,$password){
 	$sql = new Sql();
 	$results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSWORD", array(":LOGIN"=>$login,":PASSWORD"=>$password));
@@ -78,7 +78,9 @@ public function login($login,$password){
 		
 	}
 }
-	
+
+//Este método somente pegará as informações que vieram dos registros
+//do banco de dados e alimentará os atributos 'set' acima.
 public function setData($data){
 		$this->setIdusuario($data['idusuario']);
 		$this->setDeslogin($data['deslogin']);
@@ -94,6 +96,19 @@ public function insert(){
 		
 		}
 	}
+	
+public function update($login,$password){
+	$this->setDeslogin($login);
+	$this->setDessenha($password);
+	
+	$sql = new Sql();
+	
+	$sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID", array(
+		':LOGIN'=>$this->getDeslogin(),
+		':PASSWORD'=>$this->getDessenha(),
+		':ID'=>$this->getIdusuario()	
+	));
+}
 
 	//Com o acréscimo de ="", os parâmetros deixam de ser obrigatórios,
 	//ou seja, posso instanciar esta classe com os parâmetros, ou não.
