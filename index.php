@@ -39,9 +39,21 @@ require_once("config.php");
 
 //Altera o login e a senha do usuario referente ao ID do parâmetro, na invocação do método 'loadById()',
 //pelo login e senha que constam no parâmetro, na invocação do método 'update()':
+//$usuario = new Usuario();
+//$usuario->loadById(13);
+//$usuario->update("Issac","123OliveirA123");
+//echo $usuario;
+
+
+//Deleta o registro referente ao índice do parâmetro na
+//invocação do método 'loadById()':
+//1º)Os valores do usuário das referidas colunas do ID são
+//alimentados nas memórias dos atributos.
+//2º)O método 'delete()' deleta na tabela o usuário deste ID,
+//e depois limpa os registros do sistema com dados em branco.
 $usuario = new Usuario();
-$usuario->loadById(13);
-$usuario->update("Issac","123OliveirA123");
+$usuario->loadById(8);
+$usuario->delete();
 echo $usuario;
 
 ?>
